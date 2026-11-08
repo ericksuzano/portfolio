@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+  <defs>
+    <pattern id="grade" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M80 0H0V80" fill="none" stroke="#232327" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="#151517"/>
+  <rect width="1600" height="1000" fill="url(#grade)"/>
+  <text x="800" y="580" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="260" font-weight="700" fill="none" stroke="#3F3F46" stroke-width="4">;</text>
+  <text x="64" y="104" font-family="Consolas, 'Courier New', monospace" font-size="36" fill="#A1A1AA" letter-spacing="3">PROJETO 03</text>
+  <text x="64" y="936" font-family="Consolas, 'Courier New', monospace" font-size="32" fill="#A1A1AA" letter-spacing="3">TODO: PRINT DO PROJETO · 16:10 · WEBP</text>
+</svg>

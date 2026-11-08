@@ -1,0 +1,77 @@
+/* =========================================================
+   Tokens de design — conceito "Alta visibilidade"
+   O preto é o palco; o amarelo é marca-texto e só aparece
+   onde o olhar do recrutador deve ir (~80% escuro, 15% texto, 5% amarelo).
+   ========================================================= */
+
+:root {
+  /* ---------- Cores ---------- */
+  --preto: #0b0b0c; /* fundo principal */
+  --grafite: #151517; /* cards, navbar após o scroll, campos */
+  --grafite-claro: #232327; /* bordas e divisores */
+  --cinza: #a1a1aa; /* texto secundário e legendas */
+  --off-white: #f4f1ea; /* texto principal (branco puro cansa no preto) */
+  --amarelo: #ffd60a; /* botões, palavras-chave e link ativo */
+  --amarelo-escuro: #e5b800; /* hover dos botões amarelos */
+  --ambar: #ff9f1c; /* só nos brilhos desfocados do parallax, nunca em texto */
+
+  /* ---------- Fontes ---------- */
+  --fonte-titulo: "Archivo", "Arial Black", sans-serif;
+  --fonte-texto: "Manrope", system-ui, sans-serif;
+  --fonte-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+  /* ---------- Tamanhos de texto (escala fluida entre 360px e 1440px) ---------- */
+  --texto-base: 1.0625rem; /* 17px */
+  --texto-pequeno: 0.9375rem; /* 15px */
+  --texto-mono: 0.8125rem; /* 13px: rótulos, tags e links da navbar */
+  /* Escala reduzida a pedido (o briefing sugeria h1 de 48 a 128px e h2 de 36 a 64px):
+     na Archivo expandida, os tamanhos maiores ficavam pesados demais */
+  --texto-h1: clamp(2.75rem, 1.6rem + 4.9vw, 5.5rem); /* 44px → 88px */
+  --texto-h2: clamp(1.75rem, 1.4rem + 1.55vw, 2.75rem); /* 28px → 44px */
+  --texto-h3: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); /* 17px → 20px */
+  --texto-destaque: clamp(1.0625rem, 1rem + 0.2vw, 1.1875rem); /* 17px → 19px: parágrafos principais */
+
+  --entrelinha-titulo: 0.95;
+  --entrelinha-texto: 1.7;
+  --espacamento-mono: 0.08em;
+
+  /* ---------- Espaçamentos ---------- */
+  --espaco-2xs: 0.25rem; /* 4px */
+  --espaco-xs: 0.5rem; /* 8px */
+  --espaco-sm: 1rem; /* 16px */
+  --espaco-md: 1.5rem; /* 24px: gap do grid */
+  --espaco-lg: 2.5rem; /* 40px */
+  --espaco-xl: 4rem; /* 64px */
+  --espaco-secao: clamp(4.5rem, 3.5rem + 4.4vw, 7.5rem); /* 72px → 120px entre seções */
+
+  /* ---------- Layout ---------- */
+  --largura-max: 1200px;
+  --margem: 24px; /* 48px no desktop (ver base.css) */
+  --gap-grid: 24px;
+  --altura-nav: 72px;
+
+  /* ---------- Raios e sombras ---------- */
+  --raio-botao: 6px;
+  --raio-card: 12px;
+  --sombra-dura: 4px 4px 0 var(--off-white);
+  --sombra-dura-escura: 4px 4px 0 var(--preto);
+
+  /* ---------- Movimento ---------- */
+  --ease-saida: cubic-bezier(0.22, 1, 0.36, 1); /* parecido com o power3.out do GSAP */
+  --duracao-rapida: 0.2s;
+  --duracao-media: 0.4s;
+
+  /* ---------- Camadas (z-index) ---------- */
+  --z-fundo: 0;
+  --z-conteudo: 1;
+  --z-menu: 90;
+  --z-nav: 100;
+  --z-grao: 200;
+  --z-pular: 300;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --margem: 48px;
+  }
+}

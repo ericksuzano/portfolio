@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Intro do computador: decidida antes da primeira pintura, para a página não "pular".
+      // Só entra com movimento permitido. Se o JavaScript principal não iniciar em 4s,
+      // volta ao site normal (rede de segurança).
+      (function () {
+        var html = document.documentElement;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        html.classList.add("com-intro", "intro-em-andamento");
+        setTimeout(function () {
+          if (html.classList.contains("intro-pronta")) return;
+          html.classList.remove("com-intro", "intro-em-andamento");
+          html.classList.add("sem-intro");
+        }, 4000);
+      })();
+    </script>
+    <title>Erick Suzano — Desenvolvimento Web e Mobile</title>
+    <meta
+      name="description"
+      content="Portfólio de Erick Suzano, estudante de Ciência da Computação no Rio de Janeiro. Desenvolvimento web e mobile com Node.js, React, React Native e Electron."
+    />
+    <meta name="theme-color" content="#0B0B0C" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fontes: Archivo (títulos, largura expandida), Manrope (texto) e JetBrains Mono (rótulos e tags) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800..900&family=JetBrains+Mono:wght@500&family=Manrope:wght@400;500&display=swap"
+    />
+
+    <!-- Open Graph: prévia do link no LinkedIn, WhatsApp e outras redes.
+         TODO: depois de publicar (etapa 8), troque SEU-SITE pelo endereço real do site. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://SEU-SITE.vercel.app/" />
+    <meta property="og:title" content="Erick Suzano — Desenvolvimento Web e Mobile" />
+    <meta
+      property="og:description"
+      content="Projetos com Node.js, React, React Native e Electron. Conheça meu trabalho e baixe o currículo."
+    />
+    <meta property="og:image" content="https://SEU-SITE.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Erick Suzano — Desenvolvimento Web e Mobile" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+
+  <body>
+    <!-- Sprite de ícones: cada ícone é desenhado uma vez e reaproveitado com <use href="#...">.
+         Interface: Lucide (https://lucide.dev, licença ISC). -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position: absolute" aria-hidden="true">
+      <symbol id="icone-download" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 15V3" />
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <path d="m7 10 5 5 5-5" />
+        </g>
+      </symbol>
+      <symbol id="icone-seta-baixo" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14" />
+          <path d="m19 12-7 7-7-7" />
+        </g>
+      </symbol>
+      <symbol id="icone-seta-cima" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m5 12 7-7 7 7" />
+          <path d="M12 19V5" />
+        </g>
+      </symbol>
+      <symbol id="icone-externo" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 7h10v10" />
+          <path d="M7 17 17 7" />
+        </g>
+      </symbol>
+      <symbol id="icone-copiar" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+          <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+        </g>
+      </symbol>
+      <symbol id="icone-seta-esquerda" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </g>
+      </symbol>
+      <symbol id="icone-seta-direita" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </g>
+      </symbol>
+      <symbol id="icone-power" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v10" />
+          <path d="M18.4 6.6a9 9 0 1 1-12.77.04" />
+        </g>
+      </symbol>
+      <symbol id="icone-enviar" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path
+            d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"
+          />
+          <path d="m21.854 2.147-10.94 10.939" />
+        </g>
+      </symbol>
+
+      <!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc. -->
+      <symbol id="icone-whatsapp" viewBox="0 0 448 512">
+        <path
+          fill="currentColor"
+          d="M380.9 97.1c-41.9-42-97.7-65.1-157-65.1-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480 117.7 449.1c32.4 17.7 68.9 27 106.1 27l.1 0c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zM325.1 300.5c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z"
+        />
+      </symbol>
+      <symbol id="icone-linkedin" viewBox="0 0 448 512">
+        <path
+          fill="currentColor"
+          d="M416 32L31.9 32C14.3 32 0 46.5 0 64.3L0 447.7C0 465.5 14.3 480 31.9 480L416 480c17.6 0 32-14.5 32-32.3l0-383.4C448 46.5 433.6 32 416 32zM135.4 416l-66.4 0 0-213.8 66.5 0 0 213.8-.1 0zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77zM384.3 416l-66.4 0 0-104c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9l0 105.8-66.4 0 0-213.8 63.7 0 0 29.2 .9 0c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9l0 117.2z"
+        />
+      </symbol>
+      <symbol id="icone-github" viewBox="0 0 512 512">
+        <path
+          fill="currentColor"
+          d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5l0 52C323 491.5 335.5 500 350.5 494 441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5l0-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21z"
+        />
+      </symbol>
+    </svg>
+
+    <a class="pular-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="nav">
+      <nav class="nav__barra container" aria-label="Navegação principal">
+        <a class="nav__logo" href="#inicio">
+          <img src="/favicon.svg" width="40" height="40" alt="Erick Suzano — voltar ao início" />
+        </a>
+
+        <ul class="nav__links">
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#projetos">Projetos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+
+        <button class="menu-botao" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu-mobile">
+          <span class="menu-botao__linha"></span>
+          <span class="menu-botao__linha"></span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Menu mobile em tela cheia. Fica fora do header de propósito: o blur da navbar
+         quebraria o position: fixed de qualquer coisa dentro dela. -->
+    <nav class="menu-mobile" id="menu-mobile" aria-label="Menu">
+      <ul class="menu-mobile__lista">
+        <li><a href="#inicio"><span class="menu-mobile__num" aria-hidden="true">00</span>Início</a></li>
+        <li><a href="#sobre"><span class="menu-mobile__num" aria-hidden="true">01</span>Sobre</a></li>
+        <li><a href="#projetos"><span class="menu-mobile__num" aria-hidden="true">02</span>Projetos</a></li>
+        <li><a href="#contato"><span class="menu-mobile__num" aria-hidden="true">03</span>Contato</a></li>
+      </ul>
+    </nav>
+
+    <main id="conteudo" tabindex="-1">
+      <!-- ================= INÍCIO (intro do computador) ================= -->
+      <!-- Ao carregar: um computador com a tela desligada. Ao rolar, a tela liga e a câmera se
+           aproxima até a tela virar o próprio site. A tela é o Início de verdade, não uma imagem.
+           Sem JavaScript ou com "reduzir movimento", nada disso aparece e o Início abre normal. -->
+      <section class="intro" data-link="inicio" aria-labelledby="hero-nome">
+        <!-- Alvo dos links "Início" e "voltar ao topo": fica no fim da intro, onde o site começa -->
+        <span class="intro__ancora" id="inicio"></span>
+
+        <div class="intro__cena">
+          <div class="intro__hud">
+            <p class="intro__titulo" aria-hidden="true">Erick Suzano — Portfólio</p>
+            <button class="intro__pular" type="button">
+              Pular intro
+              <svg class="icone" width="16" height="16" aria-hidden="true"><use href="#icone-seta-baixo" /></svg>
+            </button>
+            <p class="intro__dica" aria-hidden="true">Role para ligar<span class="intro__dica-linha"></span></p>
+          </div>
+
+          <div class="monitor">
+            <!-- Peças decorativas do computador (luz atrás, mesa, pé, base, moldura) -->
+            <div class="monitor__luz" aria-hidden="true"></div>
+            <div class="monitor__mesa" aria-hidden="true"></div>
+            <div class="monitor__suporte" aria-hidden="true"></div>
+            <div class="monitor__base" aria-hidden="true"></div>
+            <div class="monitor__corpo" aria-hidden="true">
+              <span class="monitor__logo">ES</span>
+              <span class="monitor__led"></span>
+              <span class="monitor__camera"></span>
+            </div>
+
+            <!-- A tela: do tamanho exato da janela quando a câmera chega nela -->
+            <div class="monitor__tela">
+              <div class="hero">
+                <!-- Fundo: só um brilho suave (o parallax o move devagar ao rolar) -->
+                <div class="hero__fundo" aria-hidden="true">
+                  <div class="camada camada--brilho" data-speed="0.6"></div>
+                </div>
+
+                <!-- Composição editorial: o nome é o único foco; abaixo de uma régua fina,
+                     cargo, frase e ações à esquerda e informações discretas à direita -->
+                <div class="hero__conteudo container">
+                  <h1 class="hero__nome" id="hero-nome">
+                    <span class="hero__linha">Erick</span>
+                    <span class="hero__linha">Suzano<span class="hero__ponto">.</span></span>
+                  </h1>
+
+                  <div class="hero__regua" aria-hidden="true"></div>
+
+                  <div class="hero__info">
+                    <div class="hero__texto">
+                      <p class="hero__cargo">Desenvolvedor web e mobile</p>
+                      <p class="hero__frase">
+                        Faço sites, apps e jogos para totens, sempre pensando em quem está do outro lado da tela.
+                      </p>
+                    </div>
+
+                    <ul class="hero__meta">
+                      <li>Rio de Janeiro, BR</li>
+                      <!-- TODO: confirme se está buscando oportunidades; se não estiver, apague esta linha -->
+                      <li class="hero__status">Aberto a oportunidades</li>
+                    </ul>
+
+                    <div class="hero__acoes">
+                      <!-- TODO: exporte o currículo do Word em PDF e salve como public/curriculo-erick-suzano.pdf -->
+                      <a class="botao botao--primario" href="/curriculo-erick-suzano.pdf" download type="application/pdf">
+                        Baixar currículo
+                        <svg class="icone" width="20" height="20" aria-hidden="true"><use href="#icone-download" /></svg>
+                      </a>
+                      <a class="link hero__link" href="#projetos">
+                        Ver projetos
+                        <svg class="icone" width="16" height="16" aria-hidden="true"><use href="#icone-seta-baixo" /></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="monitor__reflexo" aria-hidden="true"></div>
+              <!-- Vidro da tela desligada: clicar nele também liga o computador -->
+              <div class="monitor__vidro" aria-hidden="true">
+                <svg class="monitor__power" aria-hidden="true"><use href="#icone-power" /></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SOBRE ================= -->
+      <section class="secao sobre" id="sobre" aria-labelledby="sobre-titulo">
+        <div class="container sobre__grade">
+          <div class="secao__cabecalho">
+            <p class="rotulo" data-reveal>01 — Sobre</p>
+            <h2 class="titulo-secao" id="sobre-titulo" data-reveal>
+              Do <span class="sem-quebra">back-end</span> ao <span class="destaque-pulsante">totem</span>
+            </h2>
+          </div>
+
+          <div class="sobre__texto" data-reveal>
+            <!-- TODO: texto de exemplo, montado com as informações do briefing.
+                 Erick, reescreva com as suas palavras: quem você é, o que faz e o que busca. -->
+            <p>
+              Sou estudante de Ciência da Computação no Rio de Janeiro e estagiário de desenvolvimento web na
+              Controladoria Geral do Estado do RJ, onde trabalho com Node.js, MongoDB e EJS. Também desenvolvi
+              <mark class="marca-texto">três aplicações em Electron</mark> para jogos em totens digitais, além de
+              projetos pessoais e acadêmicos com React e React Native. Agora busco uma oportunidade para crescer como
+              desenvolvedor <mark class="marca-texto">web e mobile</mark>, em um time que se importa com a experiência
+              de quem usa o produto.
+            </p>
+          </div>
+
+          <div class="sobre__foto" data-reveal>
+            <!-- TODO: foto opcional. Salve uma foto em preto e branco (4:5, .webp) em public/img/
+                 e troque o src abaixo. Se preferir sem foto, apague este bloco. -->
+            <img
+              src="/img/foto-placeholder.svg"
+              width="800"
+              height="1000"
+              alt="Foto de Erick Suzano"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PROJETOS ================= -->
+      <section class="secao projetos" id="projetos" aria-labelledby="projetos-titulo">
+        <div class="container">
+          <div class="secao__cabecalho">
+            <p class="rotulo" data-reveal>02 — Projetos</p>
+            <h2 class="titulo-secao" id="projetos-titulo" data-reveal>
+              O que eu já <span class="destaque-pulsante">construí</span>
+            </h2>
+          </div>
+
+          <!-- TODO: trocar as imagens provisórias dos cards por prints ou fotos reais (16:10, .webp em public/img/).
+               Para adicionar um projeto, copie um <article class="card"> inteiro: o carrossel se ajusta sozinho. -->
+          <!-- Carrossel: um projeto por vez, com o próximo aparecendo na borda.
+               Desliza com o dedo, trackpad, setas do teclado (com o foco no trilho) ou pelos botões. -->
+          <div class="carrossel">
+            <section class="carrossel__trilho" tabindex="0" aria-label="Projetos (deslize para ver mais)">
+              <article class="card" data-reveal>
+                <div class="card__imagem">
+                  <img
+                    src="/img/projeto-01.svg"
+                    width="1600"
+                    height="1000"
+                    alt="Tela do quiz da Mustela no totem, com o móvel de produtos para tocar"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div class="card__corpo">
+                  <!-- TODO: trocar a imagem provisória por um print ou foto do totem (salvar em public/img/) -->
+                  <h3 class="card__titulo">Totem Mustela</h3>
+                  <p class="card__descricao">
+                    Quiz para totem touch em loja: o cliente responde tocando na prateleira certa do móvel de produtos.
+                    Roda offline, em modo quiosque.
+                  </p>
+                  <ul class="card__tags">
+                    <li>Electron</li>
+                    <li>JavaScript</li>
+                    <li>HTML e CSS</li>
+                    <li>Testes E2E</li>
+                  </ul>
+                  <div class="card__links">
+                    <a class="link" href="https://github.com/ericksuzano/Totem-Mustela" target="_blank" rel="noopener">
+                      GitHub<span class="sr-only">: código do Totem Mustela</span>
+                      <svg class="icone" width="16" height="16" aria-hidden="true"><use href="#icone-externo" /></svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card" data-reveal>
+                <div class="card__imagem">
+                  <img
+                    src="/img/projeto-02.svg"
+                    width="1600"
+                    height="1000"
+                    alt="Tela de espera dos totens do evento APROXIMA 2026"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div class="card__corpo">
+                  <!-- TODO: trocar a imagem provisória por um print ou foto dos totens (salvar em public/img/) -->
+                  <h3 class="card__titulo">Totens APROXIMA 2026</h3>
+                  <p class="card__descricao">
+                    Três totens offline para um evento, com um só código: jogo de pares, galeria de concurso cultural e
+                    votação com banco SQLite local.
+                  </p>
+                  <ul class="card__tags">
+                    <li>Electron</li>
+                    <li>JavaScript</li>
+                    <li>SQLite</li>
+                    <li>HTML e CSS</li>
+                  </ul>
+                  <div class="card__links">
+                    <a class="link" href="https://github.com/ericksuzano/totem-game" target="_blank" rel="noopener">
+                      GitHub<span class="sr-only">: código dos Totens APROXIMA 2026</span>
+                      <svg class="icone" width="16" height="16" aria-hidden="true"><use href="#icone-externo" /></svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card" data-reveal>
+                <div class="card__imagem">
+                  <img
+                    src="/img/projeto-03.svg"
+                    width="1600"
+                    height="1000"
+                    alt="Tela de escolha de tema do quiz do Rio Innovation Week 2026 no totem"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div class="card__corpo">
+                  <!-- TODO: trocar a imagem provisória por um print ou foto do totem (salvar em public/img/) -->
+                  <h3 class="card__titulo">Quiz RIW 2026</h3>
+                  <p class="card__descricao">
+                    Quiz para o totem do Grupo Coruja no evento Rio Innovation Week 2026, com dois temas (Copa 2026 e
+                    Maratona do Rio), vídeo de abertura e tempo por pergunta.
+                  </p>
+                  <ul class="card__tags">
+                    <li>Electron</li>
+                    <li>JavaScript</li>
+                    <li>SQLite</li>
+                    <li>HTML e CSS</li>
+                  </ul>
+                  <div class="card__links">
+                    <a class="link" href="https://github.com/ericksuzano/Quiz-Totem" target="_blank" rel="noopener">
+                      GitHub<span class="sr-only">: código do Quiz RIW 2026</span>
+                      <svg class="icone" width="16" height="16" aria-hidden="true"><use href="#icone-externo" /></svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card" data-reveal>
+                <div class="card__imagem">
+                  <img
+                    src="/img/projeto-04.svg"
+                    width="1600"
+                    height="1000"
+                    alt="Telas do App de Agendamento no celular"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div class="card__corpo">
+                  <!-- TODO: trocar a imagem provisória por prints das telas do app (salvar em public/img/) -->
+                  <h3 class="card__titulo">App de Agendamento</h3>
+                  <p class="card__descricao">
+                    App para agendar sessões, com perfis de cliente e de profissional: horários em tempo real, lembretes
+                    por notificação e integração com o calendário do celular.
+                  </p>
+                  <ul class="card__tags">
+                    <li>React Native</li>
+                    <li>Expo</li>
+                    <li>Firebase</li>
+                    <li>JavaScript</li>
+                  </ul>
+                  <div class="card__links">
+                    <a class="link" href="https://github.com/ericksuzano/App-Agendamento" target="_blank" rel="noopener">
+                      GitHub<span class="sr-only">: código do App de Agendamento</span>
+                      <svg class="icone" width="16" height="16" aria-hidden="true"><use href="#icone-externo" /></svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </section>
+
+            <div class="carrossel__controles">
+              <p class="carrossel__contador" aria-live="polite">
+                <span class="carrossel__atual">01</span> / <span class="carrossel__total">04</span>
+              </p>
+              <div class="carrossel__progresso" aria-hidden="true"><span class="carrossel__barra"></span></div>
+              <div class="carrossel__botoes">
+                <button class="carrossel__botao" type="button" data-direcao="-1" aria-label="Projeto anterior">
+                  <svg class="icone" width="20" height="20" aria-hidden="true"><use href="#icone-seta-esquerda" /></svg>
+                </button>
+                <button class="carrossel__botao" type="button" data-direcao="1" aria-label="Próximo projeto">
+                  <svg class="icone" width="20" height="20" aria-hidden="true"><use href="#icone-seta-direita" /></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= CONTATO ================= -->
+      <section class="secao contato" id="contato" aria-labelledby="contato-titulo">
+        <div class="container contato__grade">
+          <div class="secao__cabecalho">
+            <p class="rotulo" data-reveal>03 — Contato</p>
+            <h2 class="titulo-secao" id="contato-titulo" data-reveal>Vamos conversar?</h2>
+            <p class="contato__texto" data-reveal>Tem uma vaga, um projeto ou uma ideia? Me mande uma mensagem.</p>
+          </div>
+
+          <!-- O JavaScript (etapa 6) monta o e-mail com assunto e mensagem. Sem JavaScript,
+               o action abaixo ainda abre o aplicativo de e-mail com os campos preenchidos. -->
+          <form
+            class="contato__form"
+            id="form-contato"
+            action="mailto:contato.erick2026@outlook.com"
+            method="post"
+            enctype="text/plain"
+            data-reveal
+          >
+            <div class="contato__campos">
+              <div class="campo">
+                <label for="nome">Nome</label>
+                <input id="nome" name="nome" type="text" autocomplete="name" required />
+              </div>
+              <div class="campo">
+                <label for="assunto">Assunto</label>
+                <input id="assunto" name="assunto" type="text" required />
+              </div>
+              <div class="campo campo--inteiro">
+                <label for="mensagem">Mensagem</label>
+                <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+              </div>
+            </div>
+            <button class="botao botao--escuro" type="submit">
+              Enviar mensagem
+              <svg class="icone" width="20" height="20" aria-hidden="true"><use href="#icone-enviar" /></svg>
+            </button>
+            <p class="contato__dica">O botão abre o seu aplicativo de e-mail com a mensagem pronta.</p>
+          </form>
+
+          <div class="contato__canais" data-reveal>
+            <div class="contato__email">
+              <p class="rotulo">Ou fale direto</p>
+              <p class="email-visivel">
+                <a href="mailto:contato.erick2026@outlook.com">contato.erick2026@outlook.com</a>
+                <button class="botao-copiar" type="button" id="copiar-email">
+                  <svg class="icone" width="18" height="18" aria-hidden="true"><use href="#icone-copiar" /></svg>
+                  <span class="botao-copiar__texto">Copiar e-mail</span>
+                </button>
+              </p>
+            </div>
+            <!-- Avisa leitores de tela quando o e-mail é copiado (etapa 6) -->
+            <p class="sr-only" id="copiar-status" role="status"></p>
+
+            <ul class="redes">
+              <li>
+                <a
+                  class="rede"
+                  href="https://wa.me/5521980027531?text=Ol%C3%A1%2C%20Erick!%20Vi%20seu%20portf%C3%B3lio."
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg class="icone" width="20" height="20" aria-hidden="true"><use href="#icone-whatsapp" /></svg>
+                  WhatsApp
+                </a>
+              </li>
+              <li>
+                <a class="rede" href="https://www.linkedin.com/in/erick-suzano-367102266" target="_blank" rel="noopener">
+                  <svg class="icone" width="20" height="20" aria-hidden="true"><use href="#icone-linkedin" /></svg>
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a class="rede" href="https://github.com/ericksuzano" target="_blank" rel="noopener">
+                  <svg class="icone" width="20" height="20" aria-hidden="true"><use href="#icone-github" /></svg>
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+      <div class="container">
+        <!-- O ano é atualizado sozinho pelo main.js -->
+        <p class="footer__copy">© <span id="ano">2026</span> Erick Suzano. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <!-- Botão flutuante "voltar ao topo": aparece quando o fim da página entra na tela (menu.js) -->
+    <a class="voltar-topo" href="#inicio" aria-label="Voltar ao topo">
+      <svg class="icone" width="22" height="22" aria-hidden="true"><use href="#icone-seta-cima" /></svg>
+    </a>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

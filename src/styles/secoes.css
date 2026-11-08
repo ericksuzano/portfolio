@@ -1,0 +1,1488 @@
+/* =========================================================
+   Estilos de cada seção, primeiro no celular e depois no desktop.
+   Breakpoints: 768px (tablet) e 1024px (desktop).
+   ========================================================= */
+
+/* =================== NAVBAR =================== */
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--z-nav);
+  height: var(--altura-nav);
+  border-bottom: 1px solid transparent;
+  transition:
+    transform var(--duracao-media) var(--ease-saida),
+    background-color var(--duracao-media) ease,
+    border-color var(--duracao-media) ease,
+    opacity 0.5s ease,
+    visibility 0.5s;
+}
+
+/* Durante a intro do computador a navbar fica escondida; aparece quando a tela vira o site */
+.intro-em-andamento .nav {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-100%);
+}
+
+/* Depois de rolar 80px: fundo grafite com desfoque */
+.nav--solida {
+  /* --grafite quase opaco: com pouca transparência, sobre a seção amarela ficava marrom */
+  background-color: rgb(21 21 23 / 0.94);
+  border-bottom-color: var(--grafite-claro);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+
+/* Some ao rolar para baixo; volta ao subir ou ao receber foco pelo teclado */
+.nav--escondida {
+  transform: translateY(-100%);
+}
+
+.nav:focus-within {
+  transform: none;
+}
+
+/* Com o menu mobile aberto, a navbar fica por cima dele, sem fundo próprio */
+.nav--menu-aberto {
+  background-color: transparent;
+  border-bottom-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transform: none;
+}
+
+.nav__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.nav__logo {
+  display: block;
+  border-radius: var(--raio-botao);
+  transition: transform var(--duracao-rapida) var(--ease-saida);
+}
+
+.nav__logo img {
+  width: 40px;
+  height: 40px;
+}
+
+.nav__logo:hover {
+  transform: rotate(-6deg);
+}
+
+/* Links do desktop: escondidos no celular */
+.nav__links {
+  display: none;
+}
+
+.nav__links a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-mono);
+  font-weight: 500;
+  letter-spacing: var(--espacamento-mono);
+  text-transform: uppercase;
+  color: var(--cinza);
+  transition: color var(--duracao-rapida) ease;
+}
+
+/* Sublinhado amarelo que cresce da esquerda para a direita */
+.nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  height: 2px;
+  background-color: var(--amarelo);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duracao-media) var(--ease-saida);
+}
+
+.nav__links a:hover {
+  color: var(--off-white);
+}
+
+.nav__links a:hover::after,
+.nav__links a[aria-current="true"]::after {
+  transform: scaleX(1);
+}
+
+/* Link da seção que está na tela */
+.nav__links a[aria-current="true"] {
+  color: var(--amarelo);
+}
+
+/* Botão hambúrguer: duas linhas que viram X */
+.menu-botao {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px; /* alinha as linhas com a margem da página */
+  border-radius: var(--raio-botao);
+}
+
+.menu-botao__linha {
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--off-white);
+  transition:
+    transform var(--duracao-media) var(--ease-saida),
+    background-color var(--duracao-rapida) ease;
+}
+
+.menu-botao__linha:first-child {
+  transform: translateY(-4px);
+}
+
+.menu-botao__linha:last-child {
+  transform: translateY(4px);
+}
+
+.menu-botao[aria-expanded="true"] .menu-botao__linha {
+  background-color: var(--amarelo);
+}
+
+.menu-botao[aria-expanded="true"] .menu-botao__linha:first-child {
+  transform: rotate(45deg);
+}
+
+.menu-botao[aria-expanded="true"] .menu-botao__linha:last-child {
+  transform: rotate(-45deg);
+}
+
+/* =================== MENU MOBILE (tela cheia) =================== */
+.menu-mobile {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--altura-nav) var(--margem) var(--espaco-xl);
+  background-color: var(--preto);
+  /* Começa invisível; o GSAP (autoAlpha) mostra e esconde */
+  visibility: hidden;
+  opacity: 0;
+  overflow-y: auto;
+}
+
+.menu-mobile__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-xs);
+}
+
+.menu-mobile__lista a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--espaco-sm);
+  padding-block: var(--espaco-xs);
+  font-family: var(--fonte-titulo);
+  font-stretch: 125%;
+  font-weight: 800;
+  font-size: clamp(2rem, 9.5vw, 3rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--off-white);
+  transition: color var(--duracao-rapida) ease;
+}
+
+.menu-mobile__lista a:hover,
+.menu-mobile__lista a[aria-current="true"] {
+  color: var(--amarelo);
+}
+
+.menu-mobile__num {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-mono);
+  font-weight: 500;
+  letter-spacing: var(--espacamento-mono);
+  color: var(--amarelo);
+}
+
+/* Trava a rolagem da página enquanto o menu está aberto */
+body.sem-scroll {
+  overflow: hidden;
+}
+
+/* Tablet e desktop: links visíveis na barra, sem hambúrguer nem menu em tela cheia */
+@media (min-width: 768px) {
+  /* No desktop a navbar fica sempre visível, para dar para navegar de qualquer ponto da página */
+  .nav--escondida {
+    transform: none;
+  }
+
+  .nav__links {
+    display: flex;
+    gap: var(--espaco-lg);
+  }
+
+  .menu-botao,
+  .menu-mobile {
+    display: none;
+  }
+}
+
+/* =================== SEÇÕES (comum) =================== */
+/* Seções escuras: o espaço entre elas vem só do topo (80px no celular, 160px no desktop) */
+.secao {
+  padding-block: var(--espaco-secao) 0;
+}
+
+.secao__cabecalho {
+  margin-bottom: var(--espaco-lg);
+}
+
+.secao__cabecalho .rotulo {
+  margin-bottom: var(--espaco-sm);
+}
+
+/* =================== INÍCIO (hero) =================== */
+/* Composição limpa, em estilo editorial: o nome é o único foco. Abaixo de uma régua fina,
+   cargo, frase e ações à esquerda e informações discretas à direita. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end; /* conteúdo apoiado embaixo, como num cartaz */
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: calc(var(--altura-nav) + var(--espaco-lg)) clamp(3rem, 12vh, 7rem);
+  overflow: hidden;
+}
+
+/* ----- Fundo: só um brilho suave ----- */
+.hero__fundo {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fundo);
+  pointer-events: none;
+}
+
+.camada {
+  position: absolute;
+  inset: 0;
+}
+
+/* Brilho amarelo/âmbar no alto à direita (o âmbar só aparece aqui, nunca em texto).
+   Degradê com paradas suaves em vez de filter: blur, que pesaria no zoom da intro. */
+.camada--brilho {
+  inset: auto;
+  top: -18%;
+  right: -22%;
+  width: min(125vw, 920px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(255 214 10 / 0.2) 0%,
+    rgb(255 159 28 / 0.1) 30%,
+    rgb(255 159 28 / 0.035) 50%,
+    transparent 70%
+  );
+}
+
+/* ----- Conteúdo ----- */
+.hero__conteudo {
+  position: relative;
+  z-index: var(--z-conteudo);
+}
+
+/* Nome: em duas linhas no celular e no tablet; numa linha só no desktop */
+.hero__nome {
+  font-size: var(--texto-h1);
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+}
+
+.hero__linha {
+  display: block;
+}
+
+/* Ponto final amarelo: o único detalhe de cor do nome */
+.hero__ponto {
+  color: var(--amarelo);
+}
+
+/* Régua fina entre o nome e as informações (na entrada, ela se desenha da esquerda para a direita) */
+.hero__regua {
+  height: 1px;
+  margin-block: var(--espaco-md);
+  background-color: var(--grafite-claro);
+  transform-origin: left center;
+}
+
+.hero__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-md);
+}
+
+.hero__cargo {
+  font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.hero__frase {
+  max-width: 40ch;
+  margin-top: var(--espaco-xs);
+  line-height: 1.6;
+  color: var(--cinza);
+}
+
+/* Cidade e status, discretos, em mono */
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-xs) var(--espaco-md);
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: var(--espacamento-mono);
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+.hero__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--off-white);
+}
+
+.hero__status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--amarelo);
+  box-shadow: 0 0 0 4px rgb(255 214 10 / 0.14);
+}
+
+.hero__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-sm) var(--espaco-lg);
+}
+
+.hero__link {
+  min-height: 44px;
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-mono);
+  font-weight: 500;
+  letter-spacing: var(--espacamento-mono);
+  text-transform: uppercase;
+}
+
+/* Desktop: nome numa linha só (no tablet em pé, duas linhas têm mais presença) */
+@media (min-width: 1024px) {
+  .hero__linha {
+    display: inline;
+  }
+}
+
+/* Tablet e desktop: informações em duas colunas */
+@media (min-width: 768px) {
+  .hero__regua {
+    margin-block: var(--espaco-lg);
+  }
+
+  .hero__info {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "texto meta"
+      "acoes .";
+    gap: var(--espaco-lg) var(--espaco-xl);
+  }
+
+  .hero__texto {
+    grid-area: texto;
+  }
+
+  .hero__meta {
+    grid-area: meta;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .hero__acoes {
+    grid-area: acoes;
+  }
+}
+
+/* =================== INTRO: COMPUTADOR QUE LIGA E APROXIMA =================== */
+/* Sem a classe .com-intro (sem JS ou com "reduzir movimento"), as peças do computador
+   não aparecem e o Início funciona como uma seção normal. */
+.intro {
+  position: relative;
+}
+
+/* Alvo do link "Início": compensa o scroll-padding da navbar e cai exatamente no topo */
+.intro__ancora {
+  position: absolute;
+  left: 0;
+  top: var(--altura-nav);
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.intro__cena,
+.monitor,
+.monitor__tela {
+  position: relative;
+}
+
+.intro__hud,
+.monitor__luz,
+.monitor__mesa,
+.monitor__suporte,
+.monitor__base,
+.monitor__corpo,
+.monitor__reflexo,
+.monitor__vidro {
+  display: none;
+}
+
+/* ---------- Modo intro ligado (classe posta pelo script do <head>) ---------- */
+.com-intro {
+  --intro-percurso: 160vh; /* quanto se rola até a tela virar o site */
+}
+
+/* A seção vira uma "pista" de rolagem; a cena fica grudada na tela enquanto isso */
+.com-intro .intro {
+  height: calc(100svh + var(--intro-percurso));
+}
+
+.com-intro .intro__ancora {
+  top: calc(100% - 100svh + var(--altura-nav));
+}
+
+.com-intro .intro__cena {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  /* Estúdio escuro com uma luz suave vindo de cima */
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, rgb(244 241 234 / 0.06), transparent 70%),
+    var(--preto);
+  /* Some até o JS posicionar o computador, para não aparecer no lugar errado */
+  opacity: 0;
+}
+
+.intro-pronta .intro__cena {
+  opacity: 1;
+  transition: opacity 0.9s ease;
+}
+
+/* O grupo "monitor" tem o tamanho exato da janela: a tela é a janela.
+   O JS reduz o grupo inteiro (scale) e a rolagem o traz de volta à escala 1. */
+.com-intro .monitor {
+  position: absolute;
+  inset: 0;
+  container-type: size; /* as peças usam cqw/cqh, proporcionais ao tamanho da tela */
+  transform-origin: 50% 50%;
+
+  /* Medidas do computador, proporcionais à largura da tela */
+  --moldura: 1.1cqw;
+  --queixo: 3.4cqw;
+  --pescoco: 11cqw;
+  --base-altura: 1.1cqw;
+}
+
+.com-intro .monitor__tela {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  background-color: var(--preto);
+  /* Fina borda preta do painel entre a moldura e a imagem */
+  box-shadow: 0 0 0 0.3cqw #070708;
+}
+
+/* O Início ocupa a tela inteira */
+.com-intro .hero {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+/* ----- Moldura, queixo com logo e LED ----- */
+.com-intro .monitor__corpo {
+  display: block;
+  position: absolute;
+  inset: calc(var(--moldura) * -1) calc(var(--moldura) * -1) calc(var(--queixo) * -1);
+  z-index: 1;
+  border-radius: 1.2cqw;
+  background: linear-gradient(180deg, #1c1c1f 0%, #151517 55%, #111113 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(244 241 234 / 0.06),
+    inset 0 1px 0 rgb(244 241 234 / 0.12),
+    0 3cqw 7cqw -1cqw rgb(0 0 0 / 0.85);
+}
+
+.monitor__logo {
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--queixo);
+  display: grid;
+  place-items: center;
+  font-family: var(--fonte-titulo);
+  font-stretch: 125%;
+  font-weight: 900;
+  font-size: 1.1cqw;
+  letter-spacing: 0.06em;
+  color: #2b2b30;
+}
+
+/* LED de standby: "respira" enquanto o computador está desligado */
+.monitor__led {
+  position: absolute;
+  right: 2.6cqw;
+  bottom: calc(var(--queixo) / 2 - 0.22cqw);
+  width: 0.44cqw;
+  height: 0.44cqw;
+  border-radius: 50%;
+  background-color: var(--amarelo);
+  opacity: 0.2;
+  animation: led-respirar 3.2s ease-in-out infinite;
+}
+
+@keyframes led-respirar {
+  0%,
+  100% {
+    opacity: 0.16;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.intro--ligada .monitor__led {
+  animation: none;
+  opacity: 1;
+  box-shadow: 0 0 0.6cqw 0.1cqw rgb(255 214 10 / 0.75);
+}
+
+.monitor__camera {
+  display: none;
+}
+
+/* ----- Pé e base ----- */
+.com-intro .monitor__suporte {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: calc(100% + var(--queixo));
+  width: 7.5cqw;
+  height: var(--pescoco);
+  transform: translateX(-50%);
+  clip-path: polygon(14% 0, 86% 0, 100% 100%, 0 100%);
+  background: linear-gradient(
+    90deg,
+    #0e0e10 0%,
+    #1d1d21 30%,
+    #232327 50%,
+    #18181b 70%,
+    #0e0e10 100%
+  );
+}
+
+.com-intro .monitor__base {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: calc(100% + var(--queixo) + var(--pescoco));
+  width: 24cqw;
+  height: var(--base-altura);
+  transform: translateX(-50%);
+  border-radius: 0.5cqw 0.5cqw 0.25cqw 0.25cqw;
+  background: linear-gradient(180deg, #2a2a2f 0%, #18181b 35%, #0f0f11 100%);
+  box-shadow: 0 0.8cqw 2.4cqw rgb(0 0 0 / 0.8);
+}
+
+/* ----- Mesa: uma linha de horizonte que "apoia" o computador ----- */
+.com-intro .monitor__mesa {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: calc(100% + var(--queixo) + var(--pescoco) + var(--base-altura));
+  width: 600cqw;
+  height: 300cqh;
+  transform: translateX(-50%);
+  border-top: 1px solid rgb(244 241 234 / 0.07);
+  background: linear-gradient(180deg, #141416 0%, #0e0e0f 10%, var(--preto) 35%);
+}
+
+/* Reflexo da luz da tela na mesa (aparece quando liga) */
+.monitor__mesa::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 120cqw;
+  height: 22cqw;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse 50% 100% at 50% 0%, rgb(255 214 10 / 0.12), transparent 70%);
+  opacity: 0;
+  transition: opacity 1.4s ease 0.2s;
+}
+
+/* ----- Luz da tela na parede, atrás do computador (aparece quando liga) ----- */
+.com-intro .monitor__luz {
+  display: block;
+  position: absolute;
+  inset: -30cqh -30cqw;
+  background: radial-gradient(
+    closest-side,
+    rgb(255 214 10 / 0.16),
+    rgb(255 159 28 / 0.07) 45%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 1.4s ease 0.2s;
+}
+
+.intro--ligada .monitor__luz,
+.intro--ligada .monitor__mesa::before {
+  opacity: 1;
+}
+
+/* ----- Tela desligada: vidro preto com ícone de power. Ao ligar, acende e some ----- */
+.com-intro .monitor__vidro {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background-color: #060607;
+  cursor: pointer;
+}
+
+.monitor__power {
+  width: 4.5cqw;
+  height: 4.5cqw;
+  color: #26262b;
+  transition: color var(--duracao-media) ease;
+}
+
+.monitor__vidro:hover .monitor__power {
+  color: var(--amarelo);
+}
+
+.intro--ligada .monitor__vidro {
+  animation: tela-ligar 0.9s ease forwards;
+  cursor: auto;
+}
+
+/* Liga como um monitor de verdade: a luz de fundo acende e a imagem aparece */
+@keyframes tela-ligar {
+  0% {
+    background-color: #060607;
+    opacity: 1;
+  }
+  30% {
+    background-color: #1a1a1d;
+    opacity: 1;
+  }
+  100% {
+    background-color: #1a1a1d;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.intro--ligada .monitor__power {
+  opacity: 0;
+}
+
+/* Reflexo diagonal no vidro: some quando a câmera chega perto */
+.com-intro .monitor__reflexo {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    rgb(255 255 255 / 0.07) 0%,
+    rgb(255 255 255 / 0.02) 38%,
+    transparent 38.2%
+  );
+}
+
+/* ----- Textos da cena: título, "pular intro" e dica de rolagem ----- */
+.com-intro .intro__hud {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: var(--espacamento-mono);
+  text-transform: uppercase;
+}
+
+.intro__titulo,
+.intro__pular {
+  position: absolute;
+  top: 14px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.intro__titulo {
+  left: max(var(--margem), calc((100% - var(--largura-max)) / 2));
+  color: var(--cinza);
+}
+
+/* Em telas estreitas o título encostaria no "Pular intro" */
+@media (max-width: 519px) {
+  .intro__titulo {
+    display: none;
+  }
+}
+
+.intro__pular {
+  right: max(var(--margem), calc((100% - var(--largura-max)) / 2));
+  gap: var(--espaco-xs);
+  pointer-events: auto;
+  color: var(--off-white);
+  text-transform: uppercase;
+  letter-spacing: var(--espacamento-mono);
+  transition: color var(--duracao-rapida) ease;
+}
+
+.intro__pular:hover {
+  color: var(--amarelo);
+}
+
+.intro__dica {
+  position: absolute;
+  left: 50%;
+  bottom: var(--espaco-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-sm);
+  transform: translateX(-50%);
+  color: var(--cinza);
+  white-space: nowrap;
+}
+
+/* Linha com um ponto amarelo descendo: "role para baixo" */
+.intro__dica-linha {
+  position: relative;
+  width: 1px;
+  height: 40px;
+  overflow: hidden;
+  background-color: var(--grafite-claro);
+}
+
+.intro__dica-linha::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -40%;
+  width: 1px;
+  height: 40%;
+  background-color: var(--amarelo);
+  animation: dica-descer 1.8s ease-in-out infinite;
+}
+
+@keyframes dica-descer {
+  to {
+    top: 100%;
+  }
+}
+
+/* ---------- Tela em pé (celular e tablet na vertical): o computador vira um celular ---------- */
+@media (orientation: portrait) {
+  .com-intro {
+    --intro-percurso: 130vh;
+  }
+
+  .com-intro .monitor {
+    --moldura: 3cqw;
+  }
+
+  .com-intro .monitor__tela {
+    border-radius: 7cqw; /* o JS leva a 0 no fim do zoom */
+    box-shadow: 0 0 0 0.6cqw #070708;
+  }
+
+  .com-intro .monitor__corpo {
+    inset: calc(var(--moldura) * -1);
+    border-radius: calc(7cqw + var(--moldura));
+  }
+
+  /* Botões laterais */
+  .com-intro .monitor__corpo::before,
+  .com-intro .monitor__corpo::after {
+    content: "";
+    position: absolute;
+    width: 0.9cqw;
+    background-color: #1d1d21;
+  }
+
+  .com-intro .monitor__corpo::before {
+    right: -0.9cqw;
+    top: 22%;
+    height: 9%;
+    border-radius: 0 0.5cqw 0.5cqw 0;
+  }
+
+  .com-intro .monitor__corpo::after {
+    left: -0.9cqw;
+    top: 16%;
+    height: 14%;
+    border-radius: 0.5cqw 0 0 0.5cqw;
+  }
+
+  /* Câmera frontal na borda de cima */
+  .com-intro .monitor__camera {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: calc(var(--moldura) / 2 - 0.9cqw);
+    width: 1.8cqw;
+    height: 1.8cqw;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #2a2a33, #050506 70%);
+  }
+
+  .com-intro .monitor__logo,
+  .com-intro .monitor__led,
+  .com-intro .monitor__suporte,
+  .com-intro .monitor__base,
+  .com-intro .monitor__mesa {
+    display: none;
+  }
+
+  .monitor__power {
+    width: 12cqw;
+    height: 12cqw;
+  }
+}
+
+/* =================== SOBRE =================== */
+.sobre__grade {
+  display: grid;
+  gap: var(--espaco-lg);
+}
+
+.sobre__grade .secao__cabecalho {
+  margin-bottom: 0;
+}
+
+.sobre__texto p {
+  max-width: 62ch;
+  font-size: var(--texto-destaque);
+}
+
+/* Foto P&B de alto contraste com moldura amarela deslocada */
+.sobre__foto {
+  position: relative;
+  isolation: isolate;
+  width: min(100% - 14px, 380px);
+  margin: 0 14px 14px 0;
+}
+
+.sobre__foto::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 2px solid var(--amarelo);
+  border-radius: 4px;
+  transform: translate(14px, 14px);
+}
+
+.sobre__foto img {
+  width: 100%;
+  border-radius: 4px;
+  filter: grayscale(1) contrast(1.15);
+}
+
+/* =================== PROJETOS: CARROSSEL =================== */
+/* Um projeto por vez, com o próximo aparecendo na borda. O deslize é nativo (scroll-snap):
+   funciona com o dedo, trackpad, teclado e com os botões (carrossel.js). */
+.carrossel__trilho {
+  --largura-slide: 86%;
+  display: flex;
+  gap: var(--gap-grid);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* a navegação fica nos botões e na barra de progresso */
+  /* Folga em cima para o card subir no hover sem ser cortado */
+  padding-block: 8px;
+  margin-block: -8px;
+  border-radius: var(--raio-card);
+}
+
+.carrossel__trilho::-webkit-scrollbar {
+  display: none;
+}
+
+.carrossel__trilho .card {
+  flex: 0 0 var(--largura-slide);
+  scroll-snap-align: start;
+}
+
+/* ----- Controles: contador, progresso e setas ----- */
+.carrossel__controles {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-md);
+  margin-top: var(--espaco-lg);
+}
+
+.carrossel__contador {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-mono);
+  font-weight: 500;
+  letter-spacing: var(--espacamento-mono);
+  color: var(--cinza);
+  white-space: nowrap;
+}
+
+.carrossel__atual {
+  color: var(--off-white);
+}
+
+.carrossel__progresso {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background-color: var(--grafite-claro);
+}
+
+.carrossel__barra {
+  position: absolute;
+  inset: 0;
+  background-color: var(--amarelo);
+  transform-origin: left center;
+  transform: scaleX(0.25);
+  transition: transform var(--duracao-media) var(--ease-saida);
+}
+
+.carrossel__botoes {
+  display: flex;
+  gap: var(--espaco-xs);
+}
+
+.carrossel__botao {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--grafite-claro);
+  border-radius: var(--raio-botao);
+  color: var(--off-white);
+  transition:
+    border-color var(--duracao-rapida) ease,
+    color var(--duracao-rapida) ease,
+    opacity var(--duracao-rapida) ease;
+}
+
+.carrossel__botao:hover:not(:disabled) {
+  border-color: var(--amarelo);
+  color: var(--amarelo);
+}
+
+.carrossel__botao:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--grafite);
+  border: 1px solid var(--grafite-claro);
+  border-radius: var(--raio-card);
+  transition:
+    transform var(--duracao-media) var(--ease-saida),
+    border-color var(--duracao-media) ease;
+}
+
+.card__imagem {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid var(--grafite-claro);
+}
+
+.card__imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-saida);
+}
+
+.card__corpo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+  padding: var(--espaco-md);
+}
+
+.card__titulo {
+  text-transform: uppercase;
+}
+
+.card__descricao {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--cinza);
+}
+
+.card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-xs);
+}
+
+.card__tags li {
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--grafite-claro);
+  border-radius: 4px;
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: var(--espacamento-mono);
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+.card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-xs) var(--espaco-md);
+  margin-top: auto;
+  padding-top: var(--espaco-xs);
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-mono);
+  font-weight: 500;
+  letter-spacing: var(--espacamento-mono);
+  text-transform: uppercase;
+}
+
+.card__links .link {
+  min-height: 44px;
+}
+
+/* Hover (só em aparelhos com mouse): borda amarela, card sobe 6px e a imagem dá zoom */
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: var(--amarelo);
+  }
+
+  .card:hover .card__imagem img {
+    transform: scale(1.05);
+  }
+}
+
+/* Navegando pelo teclado, o card do link em foco também ganha a borda amarela */
+.card:has(:focus-visible) {
+  border-color: var(--amarelo);
+}
+
+/* =================== CONTATO (seção inteira amarela) =================== */
+.contato {
+  margin-top: var(--espaco-secao);
+  padding-block: clamp(3.5rem, 2.5rem + 4vw, 6rem); /* 56px → 96px */
+  background-color: var(--amarelo);
+  color: var(--preto);
+}
+
+.contato ::selection {
+  background-color: var(--preto);
+  color: var(--amarelo);
+}
+
+/* Foco visível preto na seção amarela */
+.contato :focus-visible {
+  outline-color: var(--preto);
+}
+
+.contato .rotulo {
+  color: var(--preto);
+}
+
+/* No celular, tudo empilhado: título, formulário e canais.
+   No desktop, duas colunas (ver o fim do arquivo): título e canais à esquerda, formulário à direita. */
+.contato__grade {
+  display: grid;
+  gap: var(--espaco-lg);
+}
+
+.contato__grade .secao__cabecalho {
+  margin-bottom: 0;
+}
+
+/* "VAMOS CONVERSAR?" um pouco maior que os outros títulos, para marcar o fim da página */
+.contato .titulo-secao {
+  font-size: clamp(2rem, 1.5rem + 2vw, 3.25rem); /* 32px → 52px */
+  font-weight: 900;
+}
+
+.contato__texto {
+  margin-top: var(--espaco-sm);
+  max-width: 36ch;
+  font-size: var(--texto-destaque);
+  font-weight: 500;
+}
+
+/* ----- Formulário: campos só com a borda inferior preta ----- */
+.contato__form {
+  display: grid;
+  justify-items: start;
+  gap: var(--espaco-sm);
+}
+
+.contato__campos {
+  display: grid;
+  grid-template-rows: auto 1fr; /* a mensagem cresce para ocupar a altura que sobrar */
+  gap: 1.25rem var(--espaco-md);
+  width: 100%;
+  margin-bottom: var(--espaco-xs);
+}
+
+/* A partir de 600px, nome e assunto ficam lado a lado */
+@media (min-width: 600px) {
+  .contato__campos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .campo--inteiro {
+    grid-column: 1 / -1;
+  }
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2xs);
+}
+
+.campo label {
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: var(--espacamento-mono);
+  text-transform: uppercase;
+}
+
+.campo input,
+.campo textarea {
+  width: 100%;
+  padding: 0.5rem 0;
+  border: 0;
+  border-bottom: 2px solid var(--preto);
+  border-radius: 0;
+  background: transparent;
+  color: var(--preto);
+  font-size: var(--texto-base);
+  line-height: 1.5;
+}
+
+.campo textarea {
+  flex: 1 1 0; /* parte de zero e cresce até a altura disponível (no desktop, até o fim do texto ao lado) */
+  min-height: 112px;
+  resize: vertical;
+}
+
+/* Campo em foco: a borda inferior engrossa no lugar do contorno */
+.campo input:focus-visible,
+.campo textarea:focus-visible {
+  outline: none;
+  box-shadow: 0 2px 0 var(--preto);
+}
+
+.contato__dica {
+  max-width: 30ch;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgb(11 11 12 / 0.75);
+}
+
+/* ----- E-mail visível e redes ----- */
+.contato__canais {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+}
+
+.contato__email {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-xs);
+}
+
+.email-visivel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-sm);
+}
+
+.email-visivel a {
+  font-size: var(--texto-destaque);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  overflow-wrap: anywhere;
+}
+
+/* Botão "Copiar e-mail" e botões das redes: contorno preto que vira preto cheio no hover */
+.botao-copiar,
+.rede {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  min-height: 48px; /* mesma altura do botão "Enviar mensagem", para as linhas baterem */
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--preto);
+  border-radius: var(--raio-botao);
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: var(--espacamento-mono);
+  text-transform: uppercase;
+  color: var(--preto);
+  transition:
+    background-color var(--duracao-rapida) ease,
+    color var(--duracao-rapida) ease;
+}
+
+.botao-copiar:hover,
+.rede:hover,
+.botao-copiar--copiado {
+  background-color: var(--preto);
+  color: var(--amarelo);
+}
+
+.redes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-xs);
+}
+
+/* =================== FOOTER =================== */
+/* Faixa preta simples no fim da página */
+.footer {
+  padding-block: var(--espaco-lg);
+  background-color: var(--preto);
+}
+
+.footer__copy {
+  font-size: var(--texto-pequeno);
+  color: var(--cinza);
+  text-align: center;
+}
+
+/* No celular o texto ocuparia a largura toda e ficaria embaixo do botão flutuante:
+   o espaço extra embaixo deixa o "©" acima dele */
+@media (max-width: 767px) {
+  .footer {
+    padding-bottom: calc(52px + var(--margem) + var(--espaco-sm));
+  }
+}
+
+/* =================== BOTÃO FLUTUANTE "VOLTAR AO TOPO" =================== */
+/* Amarelo com borda preta: aparece tanto sobre a seção amarela quanto sobre o footer preto */
+.voltar-topo {
+  position: fixed;
+  right: var(--margem);
+  bottom: var(--margem);
+  z-index: 80; /* abaixo do menu mobile, que cobre a tela inteira */
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 2px solid var(--preto);
+  border-radius: var(--raio-botao);
+  background-color: var(--amarelo);
+  color: var(--preto);
+  /* Escondido até o fim da página entrar na tela (classe adicionada pelo menu.js) */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--duracao-media) var(--ease-saida),
+    transform var(--duracao-media) var(--ease-saida),
+    visibility var(--duracao-media),
+    box-shadow var(--duracao-rapida) var(--ease-saida),
+    background-color var(--duracao-rapida) ease;
+}
+
+.voltar-topo--visivel {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.voltar-topo--visivel:hover {
+  transform: translateY(-2px);
+  background-color: var(--amarelo-escuro);
+  box-shadow: var(--sombra-dura-escura);
+}
+
+/* Sobre o fundo amarelo o contorno de foco amarelo sumiria */
+.voltar-topo:focus-visible {
+  outline-color: var(--preto);
+  box-shadow: 0 0 0 5px var(--amarelo);
+}
+
+/* =================== TABLET (768px+) =================== */
+@media (min-width: 768px) {
+  .card__corpo {
+    padding: var(--espaco-lg) var(--espaco-lg) var(--espaco-md);
+  }
+}
+
+/* Carrossel a partir de 900px: card deitado, com o print à esquerda e as informações à direita */
+@media (min-width: 900px) {
+  .carrossel__trilho {
+    --largura-slide: 88%;
+  }
+
+  .carrossel__trilho .card {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  .carrossel__trilho .card__imagem {
+    /* Preenche a coluna da imagem; sem isso, um texto mais longo deixa o card mais alto
+       e a proporção 16:10 alarga a imagem por cima do texto */
+    aspect-ratio: auto;
+    min-height: 100%;
+    height: 100%;
+    border-bottom: 0;
+    border-right: 1px solid var(--grafite-claro);
+  }
+
+  .carrossel__trilho .card__corpo {
+    justify-content: center;
+    padding: var(--espaco-xl) var(--espaco-lg);
+  }
+
+  .carrossel__trilho .card__links {
+    margin-top: var(--espaco-xs);
+  }
+}
+
+/* =================== DESKTOP (1024px+) =================== */
+@media (min-width: 1024px) {
+  /* Sobre: título à esquerda, texto deslocado uma coluna, foto à direita */
+  .sobre__grade {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    /* A segunda linha fica com a sobra de altura (a foto é mais alta que o texto),
+       assim o parágrafo vem logo abaixo do título */
+    grid-template-rows: auto 1fr;
+    gap: var(--espaco-lg) var(--gap-grid);
+    align-items: start;
+  }
+
+  .sobre__grade .secao__cabecalho {
+    grid-column: 1 / 9;
+    grid-row: 1;
+  }
+
+  .sobre__texto {
+    grid-column: 2 / 8;
+    grid-row: 2;
+  }
+
+  .sobre__foto {
+    grid-column: 9 / 13;
+    grid-row: 1 / 3;
+    align-self: center;
+    width: calc(100% - 14px);
+  }
+
+  /* Contato em duas colunas que dividem as mesmas 3 linhas (subgrid), para tudo alinhar na horizontal:
+     linha 1: título e texto  |  campos (a mensagem cresce até o fim do texto)
+     linha 2: e-mail + copiar |  botão "Enviar mensagem" (fundos alinhados)
+     linha 3: redes sociais   |  aviso do botão (centros alinhados) */
+  .contato__grade {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto auto;
+    gap: var(--espaco-sm) clamp(3rem, 6vw, 6rem);
+  }
+
+  .contato__grade .secao__cabecalho {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: var(--espaco-md);
+  }
+
+  .contato__form,
+  .contato__canais {
+    display: grid;
+    grid-template-rows: subgrid;
+    row-gap: normal; /* usa os mesmos espaços das linhas da grade */
+  }
+
+  .contato__form {
+    grid-column: 2;
+    grid-row: 1 / 4;
+  }
+
+  .contato__canais {
+    grid-column: 1;
+    grid-row: 2 / 4;
+  }
+
+  .contato__campos {
+    margin-bottom: var(--espaco-md);
+  }
+
+  /* Mínimo menor no desktop: quem define a altura da linha é o texto ao lado */
+  .campo textarea {
+    min-height: 80px;
+  }
+
+  .contato__email,
+  .contato__form .botao {
+    align-self: end;
+  }
+
+  .redes,
+  .contato__dica {
+    align-self: center;
+  }
+}
