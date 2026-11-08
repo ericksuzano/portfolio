@@ -925,6 +925,9 @@ body.sem-scroll {
 
 .sobre__foto img {
   width: 100%;
+  aspect-ratio: 4 / 5; /* enquadra qualquer foto no formato retrato, centralizando o rosto */
+  object-fit: cover;
+  object-position: 50% 30%;
   border-radius: 4px;
   filter: grayscale(1) contrast(1.15);
 }
