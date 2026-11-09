@@ -305,11 +305,11 @@
 
           <!-- TODO: trocar as imagens provisórias dos cards por prints ou fotos reais (16:10, .webp em public/img/).
                Para adicionar um projeto, copie um <article class="card"> inteiro: o carrossel se ajusta sozinho. -->
-          <!-- Carrossel: um projeto por vez, com o próximo aparecendo na borda.
-               Desliza com o dedo, trackpad, setas do teclado (com o foco no trilho) ou pelos botões. -->
-          <div class="carrossel">
-            <section class="carrossel__trilho" tabindex="0" aria-label="Projetos (deslize para ver mais)">
-              <article class="card" data-reveal>
+          <!-- Carrossel contínuo, de ponta a ponta da tela: os cards deslizam sem parar e em loop.
+               Pausa com o mouse em cima, ao tocar ou com o foco do teclado; dá para arrastar com o mouse ou o dedo. -->
+          <div class="carrossel" data-reveal>
+            <section class="carrossel__trilho" aria-label="Projetos">
+              <article class="card">
                 <div class="card__imagem">
                   <img
                     src="./img/projeto-mustela.webp"
@@ -341,7 +341,7 @@
                 </div>
               </article>
 
-              <article class="card" data-reveal>
+              <article class="card">
                 <div class="card__imagem">
                   <img
                     src="./img/projeto-aproxima.webp"
@@ -373,7 +373,7 @@
                 </div>
               </article>
 
-              <article class="card" data-reveal>
+              <article class="card">
                 <div class="card__imagem">
                   <img
                     src="./img/projeto-riw.webp"
@@ -405,7 +405,7 @@
                 </div>
               </article>
 
-              <article class="card" data-reveal>
+              <article class="card">
                 <div class="card__imagem">
                   <img
                     src="./img/projeto-agendamento.webp"
@@ -437,21 +437,6 @@
                 </div>
               </article>
             </section>
-
-            <div class="carrossel__controles">
-              <p class="carrossel__contador" aria-live="polite">
-                <span class="carrossel__atual">01</span> / <span class="carrossel__total">04</span>
-              </p>
-              <div class="carrossel__progresso" aria-hidden="true"><span class="carrossel__barra"></span></div>
-              <div class="carrossel__botoes">
-                <button class="carrossel__botao" type="button" data-direcao="-1" aria-label="Projeto anterior">
-                  <svg class="icone" width="20" height="20" aria-hidden="true"><use href="#icone-seta-esquerda" /></svg>
-                </button>
-                <button class="carrossel__botao" type="button" data-direcao="1" aria-label="Próximo projeto">
-                  <svg class="icone" width="20" height="20" aria-hidden="true"><use href="#icone-seta-direita" /></svg>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </section>

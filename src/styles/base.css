@@ -265,12 +265,25 @@ p .marca-texto {
   background-repeat: no-repeat;
   background-position: 0 100%;
   background-size: 0% 2px;
-  transition: background-size var(--duracao-media) var(--ease-saida);
+  transition:
+    background-size var(--duracao-media) var(--ease-saida),
+    color var(--duracao-rapida) ease;
 }
 
+/* Hover: o sublinhado amarelo cresce e o texto fica amarelo */
 .link:hover,
 .link:focus-visible {
   background-size: 100% 2px;
+  color: var(--amarelo);
+}
+
+/* A seta do link "sobe" na diagonal, indicando que abre em outra página */
+.link .icone {
+  transition: transform var(--duracao-rapida) var(--ease-saida);
+}
+
+.link:hover .icone:has(use[href="#icone-externo"]) {
+  transform: translate(2px, -2px);
 }
 
 /* ---------- Acessibilidade ---------- */

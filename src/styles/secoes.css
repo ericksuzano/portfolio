@@ -932,21 +932,26 @@ body.sem-scroll {
   filter: grayscale(1) contrast(1.15);
 }
 
-/* =================== PROJETOS: CARROSSEL =================== */
-/* Um projeto por vez, com o próximo aparecendo na borda. O deslize é nativo (scroll-snap):
-   funciona com o dedo, trackpad, teclado e com os botões (carrossel.js). */
+/* =================== PROJETOS: CARROSSEL CONTÍNUO =================== */
+/* De ponta a ponta da tela. Sem JavaScript ou com "reduzir movimento", é uma fileira que
+   se desliza com o dedo ou o trackpad. Com JavaScript, vira uma esteira contínua em loop
+   (classe .carrossel--continuo, ver carrossel.js). */
+.carrossel {
+  --largura-card: min(76vw, 290px);
+  /* Sai do container e ocupa a largura inteira da janela */
+  margin-inline: calc(50% - 50vw);
+}
+
 .carrossel__trilho {
-  --largura-slide: 86%;
   display: flex;
   gap: var(--gap-grid);
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  scrollbar-width: none; /* a navegação fica nos botões e na barra de progresso */
-  /* Folga em cima para o card subir no hover sem ser cortado */
-  padding-block: 8px;
-  margin-block: -8px;
-  border-radius: var(--raio-card);
+  scrollbar-width: none;
+  /* Primeiro card alinhado com o conteúdo da página */
+  padding: 8px max(var(--margem), calc((100vw - var(--largura-max)) / 2));
+  scroll-padding-inline: max(var(--margem), calc((100vw - var(--largura-max)) / 2));
 }
 
 .carrossel__trilho::-webkit-scrollbar {
@@ -954,76 +959,66 @@ body.sem-scroll {
 }
 
 .carrossel__trilho .card {
-  flex: 0 0 var(--largura-slide);
+  flex: 0 0 var(--largura-card);
   scroll-snap-align: start;
 }
 
-/* ----- Controles: contador, progresso e setas ----- */
-.carrossel__controles {
-  display: flex;
-  align-items: center;
-  gap: var(--espaco-md);
-  margin-top: var(--espaco-lg);
+/* Cards compactos: vários cabem na tela ao mesmo tempo */
+.carrossel .card__corpo {
+  gap: 0.75rem;
+  padding: var(--espaco-md) !important;
 }
 
-.carrossel__contador {
-  font-family: var(--fonte-mono);
-  font-size: var(--texto-mono);
-  font-weight: 500;
-  letter-spacing: var(--espacamento-mono);
-  color: var(--cinza);
-  white-space: nowrap;
+.carrossel .card__titulo {
+  font-size: 1rem;
 }
 
-.carrossel__atual {
-  color: var(--off-white);
+.carrossel .card__descricao {
+  font-size: 0.875rem;
+  line-height: 1.55;
 }
 
-.carrossel__progresso {
-  position: relative;
-  flex: 1;
-  height: 2px;
-  overflow: hidden;
-  border-radius: 2px;
-  background-color: var(--grafite-claro);
+.carrossel .card__tags {
+  gap: 6px;
 }
 
-.carrossel__barra {
-  position: absolute;
-  inset: 0;
-  background-color: var(--amarelo);
-  transform-origin: left center;
-  transform: scaleX(0.25);
-  transition: transform var(--duracao-media) var(--ease-saida);
+.carrossel .card__tags li {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.6875rem;
 }
 
-.carrossel__botoes {
-  display: flex;
-  gap: var(--espaco-xs);
+.carrossel .card__links .link {
+  min-height: 40px;
 }
 
-.carrossel__botao {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--grafite-claro);
-  border-radius: var(--raio-botao);
-  color: var(--off-white);
-  transition:
-    border-color var(--duracao-rapida) ease,
-    color var(--duracao-rapida) ease,
-    opacity var(--duracao-rapida) ease;
+.carrossel__trilho img {
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
-.carrossel__botao:hover:not(:disabled) {
-  border-color: var(--amarelo);
-  color: var(--amarelo);
+/* ----- Esteira contínua (JS ligado) ----- */
+.carrossel--continuo {
+  overflow: clip; /* clip (e não hidden): o foco do teclado não consegue rolar a esteira */
+  padding-block: 8px; /* folga para o card subir no hover */
+  margin-block: -8px;
+  /* As bordas da tela somem num degradê */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
 }
 
-.carrossel__botao:disabled {
-  opacity: 0.35;
-  cursor: default;
+.carrossel--continuo .carrossel__trilho {
+  width: max-content;
+  overflow: visible;
+  scroll-snap-type: none;
+  padding: 0;
+  touch-action: pan-y; /* rolagem vertical da página continua; o arrasto lateral move a esteira */
+  cursor: grab;
+  will-change: transform;
+}
+
+.carrossel--arrastando .carrossel__trilho {
+  cursor: grabbing;
+  user-select: none;
 }
 
 .card {
@@ -1377,34 +1372,16 @@ body.sem-scroll {
   }
 }
 
-/* Carrossel a partir de 900px: card deitado, com o print à esquerda e as informações à direita */
-@media (min-width: 900px) {
-  .carrossel__trilho {
-    --largura-slide: 88%;
+/* Cards maiores no tablet e no desktop */
+@media (min-width: 768px) {
+  .carrossel {
+    --largura-card: 330px;
   }
+}
 
-  .carrossel__trilho .card {
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  }
-
-  .carrossel__trilho .card__imagem {
-    /* Preenche a coluna da imagem; sem isso, um texto mais longo deixa o card mais alto
-       e a proporção 16:10 alarga a imagem por cima do texto */
-    aspect-ratio: auto;
-    min-height: 100%;
-    height: 100%;
-    border-bottom: 0;
-    border-right: 1px solid var(--grafite-claro);
-  }
-
-  .carrossel__trilho .card__corpo {
-    justify-content: center;
-    padding: var(--espaco-xl) var(--espaco-lg);
-  }
-
-  .carrossel__trilho .card__links {
-    margin-top: var(--espaco-xs);
+@media (min-width: 1280px) {
+  .carrossel {
+    --largura-card: 360px;
   }
 }
 
